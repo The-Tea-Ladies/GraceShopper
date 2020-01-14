@@ -1,9 +1,16 @@
 body {
   font-family: sans-serif;
+  background-color: #d9e5d6;
+  /* background-color: #BA9993; */
 }
 
 a {
   text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: gray;
 }
 
 label {
@@ -15,7 +22,41 @@ nav a {
   margin: 1em;
 }
 
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #b0caaa;
+}
+
+.navbar > * {
+  margin: 5px;
+}
+
+h1 {
+  font-family: cursive;
+}
+
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.all-products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.all-products-single {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20%;
+  padding: 10px;
+  margin: 5px;
+}
+
+.all-products-image {
+  width: 150px;
 }

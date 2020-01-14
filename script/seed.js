@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Product} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -12,7 +12,42 @@ async function seed() {
     User.create({email: 'murphy@email.com', password: '123'})
   ])
 
+  const products = await Promise.all([
+    Product.create({
+      name: 'Melbourne Breakfast',
+      description:
+        'When the winds start howling, this brew will see you through. Indulge a little with this full-bodied vanilla sweet tea bound to keep you cosy all year round. Sip it up Melbourne style!',
+      price: 4,
+      inventory: 10,
+      image: '/img/melbourne-breakfast.jpg'
+    }),
+    Product.create({
+      name: 'Oolong Fresh',
+      description: 'Loose leaf fresh oolong tea.',
+      price: 10,
+      inventory: 10,
+      image: '/img/oolong-fresh.jpg'
+    }),
+    Product.create({
+      name: 'Packs a Peach',
+      description:
+        'It is all peachy with this succulent blend of lip smacking flavours. This sweet brew sings of peach, papaya, apple and roasted chicory, creating a soft combo that really packs a peach. Also great iced.',
+      price: 12,
+      inventory: 10,
+      image: '/img/packs-a-peach.jpg'
+    }),
+    Product.create({
+      name: 'Pumping Pomegranate',
+      description:
+        'The essence of the Grand Bazaar, Istanbul. A sweet, tangy and mystical flavour, this tea will take you on a flavour journey with its many surprises.',
+      price: 11,
+      inventory: 10,
+      image: '/img/pumping-pomegranate.jpg'
+    })
+  ])
+
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${products.length} products`)
   console.log(`seeded successfully`)
 }
 
