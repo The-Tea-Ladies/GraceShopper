@@ -20,12 +20,12 @@ class AllProducts extends React.Component {
 
     return (
       <div>
-        <h3>All Products Here yay!</h3>
-        <div>
+        <h3>All Products</h3>
+        <div className="all-products">
           {this.props.products.map(product => (
-            <div key={product.id}>
+            <div className="all-products-single" key={product.id}>
+              <img className="all-products-image" src={product.image} />
               {product.name}
-              <img src={product.image} />
             </div>
           ))}
         </div>
