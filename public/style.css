@@ -1,9 +1,16 @@
 body {
   font-family: sans-serif;
+  background-color: #d9e5d6;
+  /* background-color: #BA9993; */
 }
 
 a {
   text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: gray;
 }
 
 label {
@@ -19,6 +26,7 @@ nav a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #b0caaa;
 }
 
 .navbar > * {
@@ -37,14 +45,14 @@ form div {
 .all-products {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .all-products-single {
-  background-color: #d9e5d6;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 25%;
+  width: 20%;
   padding: 10px;
   margin: 5px;
 }
