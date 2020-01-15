@@ -6,6 +6,7 @@ import axios from 'axios'
  */
 const UPDATE_CART = 'UPDATE_CART'
 const CLEAR_CART = 'CLEAR_CART'
+const DELETE_ITEM = 'DELETE_ITEM'
 
 /**
  * INITIAL STATE
@@ -34,6 +35,10 @@ const clearCart = () => {
     type: CLEAR_CART
   }
 }
+export const deleteItem = itemId => ({
+  type: DELETE_ITEM,
+  itemId
+})
 
 /**
  * THUNK CREATORS
@@ -70,6 +75,14 @@ export default function(cart = initialState, action) {
       }
     case CLEAR_CART:
       return []
+    case DELETE_ITEM:
+      cart.forEach(item => {
+        if (item.id == action.itemId && item.quantity !== 0) item.quantity--
+      })
+      let updatedCart = cart.filter(item => {
+        return item.quantity != 0
+      })
+      return updatedCart
     default:
       return cart
   }
