@@ -18,13 +18,9 @@ const Order = db.define('order', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  cart: {
-    type: Sequelize.ARRAY(Sequelize.ARRAY(Sequelize.INTEGER))
-    // maybe...???
-  },
   finalized: {
     type: Sequelize.BOOLEAN,
-    defaultValue: true
+    defaultValue: false
   }
 })
 module.exports = Order

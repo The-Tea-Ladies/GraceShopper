@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, OrderProduct} = require('../db/models')
 const Sequelize = require('sequelize')
 module.exports = router
 
@@ -8,6 +8,15 @@ router.post('/', async (req, res, next) => {
     res.status(201).send(await Order.create(req.body))
   } catch (err) {
     next(err)
+  }
+})
+
+router.post('/test', async (req, res, next) => {
+  try {
+    await OrderProduct.updateOrCreate(req.body.orderId, req.body.productId)
+    res.sendStatus(201)
+  } catch (error) {
+    next(error)
   }
 })
 
