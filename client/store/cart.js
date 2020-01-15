@@ -9,7 +9,7 @@ const UPDATE_CART = 'UPDATE_CART'
 /**
  * INITIAL STATE
  */
-const initialState = {}
+const initialState = []
 
 /**
  * ACTION CREATORS
@@ -18,12 +18,13 @@ export const updateCart = product => {
   return {
     type: UPDATE_CART,
     newCartItem: {
+      id: product.id,
       name: product.name,
       image: product.image,
       price: product.price,
-      inventory: product.inventory
-    },
-    id: product.id
+      inventory: product.inventory,
+      quantity: 1
+    }
   }
 }
 
@@ -37,16 +38,17 @@ export const updateCart = product => {
 export default function(cart = initialState, action) {
   switch (action.type) {
     case UPDATE_CART:
-      if (cart[action.id]) {
-        return {
-          ...cart,
-          [action.id]: {
-            ...action.newCartItem,
-            quantity: cart[action.id].quantity + 1
-          }
+      let updated = false
+      cart.forEach(item => {
+        if (item.id === action.newCartItem.id) {
+          item.quantity++
+          updated = true
         }
+      })
+      if (!updated) {
+        return [...cart, action.newCartItem]
       } else {
-        return {...cart, [action.id]: {...action.newCartItem, quantity: 1}}
+        return [...cart]
       }
     default:
       return cart
