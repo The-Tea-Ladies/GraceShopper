@@ -32,7 +32,7 @@ class Checkout extends React.Component {
       shippingaddress: '',
       billingname: '',
       billingaddress: '',
-      cardnumber: 0
+      cardnumber: ''
     })
   }
 
