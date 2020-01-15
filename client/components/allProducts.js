@@ -28,14 +28,12 @@ class AllProducts extends React.Component {
             <div className="all-products-single" key={product.id}>
               <img className="all-products-image" src={product.image} />
               {product.name}
-
               <button
                 type="submit"
                 onClick={() => this.props.addToCart(product)}
               >
                 Add to Cart
               </button>
-              <Link to="/cart" />
             </div>
           ))}
         </div>
