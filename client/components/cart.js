@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getAllProducts} from '../store/product'
-import {updateCart} from '../store/cart'
+import {updateCart, deleteItem} from '../store/cart'
 
 /**
  * COMPONENT
@@ -11,26 +11,39 @@ import {updateCart} from '../store/cart'
 class Cart extends React.Component {
   constructor(props) {
     super(props)
+
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
     this.props.getProducts()
   }
 
-  render() {
-    console.log('props', this.props)
+  handleClick(evt) {
+    const id = evt.target.id
+    this.props.deleteItem(id)
+  }
 
+  render() {
     return (
       <div>
         <h3>Cart</h3>
-        <ul>
-          {this.props.cart.map(item => (
-            <li className="all-products-single" key={item.id}>
-              <img className="all-products-image" src={item.image} />
-              {item.name}
-            </li>
-          ))}
-        </ul>
+        {this.props.cart.length ? (
+          <ul>
+            {this.props.cart.map(item => (
+              <li className="all-products-single" key={item.id}>
+                <img className="all-products-image" src={item.image} />
+                {item.name}
+                <div>Quantity: {item.quantity}</div>
+                <button id={item.id} onClick={this.handleClick}>
+                  Remove Item
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Your cart is empty</p>
+        )}
         <Link to="/checkout">
           <button type="submit">Check Out</button>
         </Link>
@@ -50,7 +63,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     getProducts: () => dispatch(getAllProducts()),
-    addToCart: product => dispatch(updateCart(product))
+    addToCart: product => dispatch(updateCart(product)),
+    deleteItem: id => dispatch(deleteItem(id))
   }
 }
 

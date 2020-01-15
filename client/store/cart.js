@@ -5,6 +5,7 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const UPDATE_CART = 'UPDATE_CART'
+const DELETE_ITEM = 'DELETE_ITEM'
 
 /**
  * INITIAL STATE
@@ -28,6 +29,11 @@ export const updateCart = product => {
   }
 }
 
+export const deleteItem = itemId => ({
+  type: DELETE_ITEM,
+  itemId
+})
+
 /**
  * THUNK CREATORS
  */
@@ -50,6 +56,14 @@ export default function(cart = initialState, action) {
       } else {
         return [...cart]
       }
+    case DELETE_ITEM:
+      cart.forEach(item => {
+        if (item.id == action.itemId && item.quantity !== 0) item.quantity--
+      })
+      let updatedCart = cart.filter(item => {
+        return item.quantity != 0
+      })
+      return updatedCart
     default:
       return cart
   }
