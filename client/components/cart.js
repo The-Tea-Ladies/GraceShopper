@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {getAllProducts} from '../store/product'
 import {updateCart} from '../store/cart'
 
@@ -30,7 +31,9 @@ class Cart extends React.Component {
             </li>
           ))}
         </ul>
-        <button type="submit">Check Out</button>
+        <Link to="/checkout">
+          <button type="submit">Check Out</button>
+        </Link>
       </div>
     )
   }
