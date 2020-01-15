@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getAllProducts} from '../store/product'
-import {updateCart} from '../store/cart'
+import {updateCart, sendOrder} from '../store/cart'
 import CheckoutForm from './checkoutForm'
+import {Redirect} from 'react-router-dom'
 
 /**
  * COMPONENT
@@ -15,8 +16,8 @@ class Checkout extends React.Component {
       shippingname: '',
       shippingaddress: '',
       billingname: '',
-      billingaddress: '',
-      cardnumber: ''
+      billingaddress: ''
+      // cardnumber: ''
     }
   }
 
@@ -26,14 +27,24 @@ class Checkout extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    //TODO: we should trigger a thunk here to do the database stuff
+
+    //the below map takes our map from the redux store and stores it as an array of arrays, each with the form [product ID, quantity ordered]. This format will likely change.
+    const cart = this.props.cart.map(product => {
+      return [product.id, product.quantity]
+    })
+
+    let newOrder = {...this.state, cart} //eventually, should also send userid if applicable
+
+    this.props.sendOrder(newOrder)
+
     this.setState({
       shippingname: '',
       shippingaddress: '',
       billingname: '',
-      billingaddress: '',
-      cardnumber: 0
+      billingaddress: ''
+      // cardnumber: ''
     })
+    // redirect to thank you page??
   }
 
   handleChange = event => {
@@ -43,12 +54,10 @@ class Checkout extends React.Component {
   }
 
   render() {
-    console.log('props', this.props)
-
     return (
       <div>
         {/* TODO: Update this cart view (below) to matcht the cart view that Liz and Anastasiia create. maybe just grab the same component again, but need to not show the "checkout" button. */}
-        <h3>Cart</h3>
+        {/* <h3>Cart</h3>
         <ul>
           {this.props.products.map(product => (
             <li className="all-products-single" key={product.id}>
@@ -56,7 +65,7 @@ class Checkout extends React.Component {
               {product.name}
             </li>
           ))}
-        </ul>
+        </ul> */}
         {/* TODO: display order total */}
         <CheckoutForm
           handleSubmit={this.handleSubmit}
@@ -72,13 +81,15 @@ class Checkout extends React.Component {
  * CONTAINER
  */
 const mapStateToProps = state => ({
-  products: state.products.all
+  products: state.products.all,
+  cart: state.cart
 })
 
 const mapDispatchToProps = dispatch => {
   return {
     getProducts: () => dispatch(getAllProducts()),
-    addToCart: product => dispatch(updateCart(product))
+    addToCart: product => dispatch(updateCart(product)),
+    sendOrder: newOrder => dispatch(sendOrder(newOrder))
   }
 }
 

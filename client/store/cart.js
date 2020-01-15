@@ -5,6 +5,7 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const UPDATE_CART = 'UPDATE_CART'
+const CLEAR_CART = 'CLEAR_CART'
 const DELETE_ITEM = 'DELETE_ITEM'
 
 /**
@@ -29,6 +30,11 @@ export const updateCart = product => {
   }
 }
 
+const clearCart = () => {
+  return {
+    type: CLEAR_CART
+  }
+}
 export const deleteItem = itemId => ({
   type: DELETE_ITEM,
   itemId
@@ -37,6 +43,17 @@ export const deleteItem = itemId => ({
 /**
  * THUNK CREATORS
  */
+
+export const sendOrder = newOrder => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post('api/orders', newOrder)
+      dispatch(clearCart())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
 
 /**
  * REDUCER
@@ -56,6 +73,8 @@ export default function(cart = initialState, action) {
       } else {
         return [...cart]
       }
+    case CLEAR_CART:
+      return []
     case DELETE_ITEM:
       cart.forEach(item => {
         if (item.id == action.itemId && item.quantity !== 0) item.quantity--
