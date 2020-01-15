@@ -24,10 +24,10 @@ class Cart extends React.Component {
       <div>
         <h3>Cart</h3>
         <ul>
-          {this.props.products.map(product => (
-            <li className="all-products-single" key={product.id}>
-              <img className="all-products-image" src={product.image} />
-              {product.name}
+          {this.props.cart.map(item => (
+            <li className="all-products-single" key={item.id}>
+              <img className="all-products-image" src={item.image} />
+              {item.name}
             </li>
           ))}
         </ul>
@@ -43,7 +43,8 @@ class Cart extends React.Component {
  * CONTAINER
  */
 const mapStateToProps = state => ({
-  products: state.products.all
+  products: state.products.all,
+  cart: state.cart
 })
 
 const mapDispatchToProps = dispatch => {

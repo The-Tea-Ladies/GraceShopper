@@ -5,11 +5,15 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const GOT_ALL_PRODUCTS = 'GOT_ALL_PRODUCTS'
+const GOT_ONE_PRODUCT = 'GOT_ONE_PRODUCT'
 
 /**
  * INITIAL STATE
  */
-const initialState = {all: []}
+const initialState = {
+  all: [],
+  single: {}
+}
 
 /**
  * ACTION CREATORS
@@ -17,6 +21,11 @@ const initialState = {all: []}
 const gotAllProducts = products => ({
   type: GOT_ALL_PRODUCTS,
   products
+})
+
+export const gotOneProduct = product => ({
+  type: GOT_ONE_PRODUCT,
+  product
 })
 
 /**
@@ -38,6 +47,8 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_ALL_PRODUCTS:
       return {...state, all: action.products}
+    case GOT_ONE_PRODUCT:
+      return {...state, single: action.product}
     default:
       return state
   }
