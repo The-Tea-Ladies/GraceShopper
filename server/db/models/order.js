@@ -19,7 +19,7 @@ const Order = db.define('order', {
     allowNull: false
   },
   cart: {
-    type: Sequelize.ARRAY
+    type: Sequelize.ARRAY(Sequelize.ARRAY(Sequelize.INTEGER))
     // maybe...???
   },
   finalized: {

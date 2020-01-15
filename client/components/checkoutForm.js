@@ -41,12 +41,12 @@ const CheckoutForm = props => {
           onChange={props.handleChange}
         />
 
-        <label htmlFor="card">Card Number: </label>
+        {/* <label htmlFor="card">Card Number: </label>
         <input
           name="cardnumber"
           value={props.state.cardnumber}
           onChange={props.handleChange}
-        />
+        /> */}
 
         <button type="submit">Purchase</button>
       </form>
