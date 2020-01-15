@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {getAllProducts} from '../store/product'
 import {updateCart} from '../store/cart'
 
 /**
  * COMPONENT
  */
-class AllProducts extends React.Component {
+class Cart extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -22,23 +21,16 @@ class AllProducts extends React.Component {
 
     return (
       <div>
-        <h3>Shop all Tea</h3>
-        <div className="all-products">
+        <h3>Cart</h3>
+        <ul>
           {this.props.products.map(product => (
-            <div className="all-products-single" key={product.id}>
+            <li className="all-products-single" key={product.id}>
               <img className="all-products-image" src={product.image} />
               {product.name}
-              <Link to="/cart">
-                <button
-                  type="submit"
-                  onClick={() => this.props.addToCart(product)}
-                >
-                  Add to Cart
-                </button>
-              </Link>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
+        <button type="submit">Check Out</button>
       </div>
     )
   }
@@ -58,4 +50,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)
