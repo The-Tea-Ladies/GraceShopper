@@ -60,3 +60,38 @@ form div {
 .all-products-image {
   width: 150px;
 }
+
+.single-product {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.single-img {
+  width: 30%;
+  padding: 10px;
+  margin: 5px;
+}
+
+.product-description {
+  width: 50%;
+  font-family: Trebuchet MS, sans-serif;
+  font-style: italic;
+}
+p.a {
+  font: Arial 15px/40px Georgia, sans-serif;
+}
+p.b {
+  font: Arial 15px/40px Georgia, sans-serif;
+}
+button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}

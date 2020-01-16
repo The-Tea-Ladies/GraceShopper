@@ -40,6 +40,15 @@ export const getAllProducts = () => async dispatch => {
   }
 }
 
+export const getSingleProduct = productId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/products/${productId}`)
+    dispatch(gotOneProduct(res.data))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 /**
  * REDUCER
  */

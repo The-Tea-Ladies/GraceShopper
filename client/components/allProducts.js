@@ -1,9 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getAllProducts} from '../store/product'
 import {updateCart} from '../store/cart'
+import {getSingleProduct} from '../store/product'
 
 /**
  * COMPONENT
@@ -18,16 +18,18 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    console.log('props', this.props)
-
+    console.log('props', this.props.products)
     return (
       <div>
         <h3>Shop all Tea</h3>
         <div className="all-products">
           {this.props.products.map(product => (
             <div className="all-products-single" key={product.id}>
-              <img className="all-products-image" src={product.image} />
-              {product.name} {product.price}
+              <Link to={`/products/${product.id}`}>
+                <img className="all-products-image" src={product.image} />
+              </Link>
+              {product.name}
+
               <button
                 type="submit"
                 onClick={() => this.props.addToCart(product)}
