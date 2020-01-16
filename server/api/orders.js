@@ -1,22 +1,59 @@
 const router = require('express').Router()
-const {Order, OrderProduct} = require('../db/models')
+const {Order, OrderProduct, Product} = require('../db/models')
 const Sequelize = require('sequelize')
 module.exports = router
 
-router.post('/', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    res.status(201).send(await Order.create(req.body))
-  } catch (err) {
-    next(err)
+    if (req.session.orderId) {
+      const cart = await OrderProduct.findAll({
+        where: {orderId: req.session.orderId},
+        attributes: ['quantity', 'productId']
+      })
+      cart.map(item => {
+        const product = Product.findByPk(item.productId)
+        item.product = product
+        return item
+      })
+      res.send(cart)
+    }
+  } catch (error) {
+    next(error)
   }
 })
 
-router.post('/test', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
-    await OrderProduct.updateOrCreate(req.body.orderId, req.body.productId)
-    res.sendStatus(201)
+    if (!req.session.orderId) {
+      const order = await Order.create()
+      req.session.orderId = order.id
+      const quantity = await OrderProduct.updateOrCreate(
+        req.session.orderId,
+        req.body.productId
+      )
+      res.send(quantity)
+    } else {
+      const quantity = await OrderProduct.updateOrCreate(
+        req.session.orderId,
+        req.body.productId
+      )
+      res.status(201).send(quantity)
+    }
   } catch (error) {
     next(error)
+  }
+})
+
+router.put('/checkout', async (req, res, next) => {
+  // if (!req.session.cart) {
+  //   req.session.cart = [];
+  // }
+  try {
+    const order = await Order.findByPk(req.session.orderId)
+    order.finalized = true
+    res.sendStatus(204)
+  } catch (err) {
+    next(err)
   }
 })
 
