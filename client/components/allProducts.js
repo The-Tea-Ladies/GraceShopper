@@ -2,8 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getAllProducts} from '../store/product'
-import {updateCart} from '../store/cart'
-import {getSingleProduct} from '../store/product'
+import {addToCart} from '../store/cart'
 
 /**
  * COMPONENT
@@ -32,7 +31,7 @@ class AllProducts extends React.Component {
 
               <button
                 type="submit"
-                onClick={() => this.props.addToCart(product)}
+                onClick={() => this.props.addToCart(product.id)}
               >
                 Add to Cart
               </button>
@@ -54,7 +53,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     getProducts: () => dispatch(getAllProducts()),
-    addToCart: product => dispatch(updateCart(product))
+    addToCart: productId => dispatch(addToCart(productId))
   }
 }
 

@@ -14,7 +14,6 @@ const OrderProduct = db.define('orderproduct', {
 })
 OrderProduct.updateOrCreate = async (orderId, productId) => {
   try {
-    console.log('orderId', orderId, 'ProductId', productId)
     const found = await OrderProduct.findOne({
       where: {orderId: orderId, productId: productId}
     })
@@ -22,8 +21,27 @@ OrderProduct.updateOrCreate = async (orderId, productId) => {
     const product = await Product.findByPk(productId)
     if (!found) {
       order.addProduct(product)
+      return {quantity: 1}
     } else {
       found.update({quantity: found.quantity + 1})
+      return {quantity: found.quantity}
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+OrderProduct.deleteItem = async (orderId, productId) => {
+  try {
+    const found = await OrderProduct.findOne({
+      where: {orderId: orderId, productId: productId}
+    })
+    const order = await Order.findByPk(orderId)
+    const product = await Product.findByPk(productId)
+    if (found.quantity === 1) {
+      order.removeProduct(product)
+    } else {
+      found.update({quantity: found.quantity - 1})
     }
   } catch (err) {
     console.log(err)
