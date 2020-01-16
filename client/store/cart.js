@@ -4,9 +4,9 @@ import axios from 'axios'
 /**
  * ACTION TYPES
  */
-const UPDATE_CART = 'UPDATE_CART'
+const LOAD_CART = 'LOAD_CART'
 const CLEAR_CART = 'CLEAR_CART'
-const DELETE_ITEM = 'DELETE_ITEM'
+// const DELETED_ITEM = 'DELETED_ITEM'
 
 /**
  * INITIAL STATE
@@ -16,38 +16,56 @@ const initialState = []
 /**
  * ACTION CREATORS
  */
-export const updateCart = product => {
+const loadCart = cart => {
   return {
-    type: UPDATE_CART,
-    newCartItem: {
-      id: product.id,
-      name: product.name,
-      image: product.image,
-      price: product.price,
-      inventory: product.inventory,
-      quantity: 1
-    }
+    type: LOAD_CART,
+    cart
   }
 }
+
+// const deletedItem = itemId => ({
+//   type: DELETED_ITEM,
+//   itemId
+// })
 
 const clearCart = () => {
   return {
     type: CLEAR_CART
   }
 }
-export const deleteItem = itemId => ({
-  type: DELETE_ITEM,
-  itemId
-})
 
 /**
  * THUNK CREATORS
  */
 
+export const addToCart = productId => {
+  return async dispatch => {
+    try {
+      await axios.post('/api/orders', {productId})
+      const {data} = await axios.get('/api/orders')
+      dispatch(loadCart(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const deleteItem = itemId => {
+  return async dispatch => {
+    try {
+      await axios.delete('/api/orders', {productId})
+      const {data} = await axios.get('/api/orders')
+      dispatch(loadCart(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 export const sendOrder = newOrder => {
   return async dispatch => {
     try {
-      const {data} = await axios.post('api/orders', newOrder)
+      const {data} = await axios.post('api/orders/checkout', newOrder)
       dispatch(clearCart())
     } catch (error) {
       console.error(error)
@@ -60,29 +78,30 @@ export const sendOrder = newOrder => {
  */
 export default function(cart = initialState, action) {
   switch (action.type) {
-    case UPDATE_CART:
-      let updated = false
-      cart.forEach(item => {
-        if (item.id === action.newCartItem.id) {
-          item.quantity++
-          updated = true
-        }
-      })
-      if (!updated) {
-        return [...cart, action.newCartItem]
-      } else {
-        return [...cart]
-      }
+    case LOAD_CART:
+      // let updated = false
+      // cart.forEach(item => {
+      //   if (item.id === action.productId) {
+      //     item.quantity++
+      //     updated = true
+      //   }
+      // })
+      // if (!updated) {
+      //   return [...cart, action.newCartItem]
+      // } else {
+      //   return [...cart]
+      // }
+      return [...action.cart]
     case CLEAR_CART:
       return []
-    case DELETE_ITEM:
-      cart.forEach(item => {
-        if (item.id == action.itemId && item.quantity !== 0) item.quantity--
-      })
-      let updatedCart = cart.filter(item => {
-        return item.quantity != 0
-      })
-      return updatedCart
+    // case DELETED_ITEM:
+    //   cart.forEach(item => {
+    //     if (item.id == action.itemId && item.quantity !== 0) item.quantity--
+    //   })
+    //   let updatedCart = cart.filter(item => {
+    //     return item.quantity != 0
+    //   })
+    //   return updatedCart
     default:
       return cart
   }

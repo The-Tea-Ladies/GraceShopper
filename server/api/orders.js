@@ -11,11 +11,29 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.post('/test', async (req, res, next) => {
+router.post('/add', async (req, res, next) => {
   try {
     await OrderProduct.updateOrCreate(req.body.orderId, req.body.productId)
     res.sendStatus(201)
   } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/test', async (req, res, next) => {
+  try {
+    if (!req.session.cart) {
+      req.session.cart = []
+    }
+
+    console.log('req.session.id before save:', req.session.id)
+    req.session.save()
+    console.log('req.session.id after save:', req.session.id)
+    console.log('req.session')
+    console.log(req.session)
+    res.status(200).send(req.user)
+  } catch (error) {
+    console.log('sad face')
     next(error)
   }
 })

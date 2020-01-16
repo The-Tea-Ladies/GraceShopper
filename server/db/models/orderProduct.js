@@ -14,7 +14,6 @@ const OrderProduct = db.define('orderproduct', {
 })
 OrderProduct.updateOrCreate = async (orderId, productId) => {
   try {
-    console.log('orderId', orderId, 'ProductId', productId)
     const found = await OrderProduct.findOne({
       where: {orderId: orderId, productId: productId}
     })

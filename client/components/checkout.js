@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getAllProducts} from '../store/product'
-import {updateCart, sendOrder} from '../store/cart'
+import {sendOrder} from '../store/cart'
 import CheckoutForm from './checkoutForm'
 import {Redirect} from 'react-router-dom'
 
@@ -28,12 +28,7 @@ class Checkout extends React.Component {
   handleSubmit = event => {
     event.preventDefault()
 
-    //the below map takes our map from the redux store and stores it as an array of arrays, each with the form [product ID, quantity ordered]. This format will likely change.
-    const cart = this.props.cart.map(product => {
-      return [product.id, product.quantity]
-    })
-
-    let newOrder = {...this.state, cart} //eventually, should also send userid if applicable
+    let newOrder = {...this.state} //on the backend, we'll grab orderId and userId, if applicable, from req.session
 
     this.props.sendOrder(newOrder)
 
@@ -56,7 +51,6 @@ class Checkout extends React.Component {
   render() {
     return (
       <div>
-        {/* TODO: Update this cart view (below) to matcht the cart view that Liz and Anastasiia create. maybe just grab the same component again, but need to not show the "checkout" button. */}
         {/* <h3>Cart</h3>
         <ul>
           {this.props.products.map(product => (
@@ -88,7 +82,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     getProducts: () => dispatch(getAllProducts()),
-    addToCart: product => dispatch(updateCart(product)),
     sendOrder: newOrder => dispatch(sendOrder(newOrder))
   }
 }

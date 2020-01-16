@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getAllProducts} from '../store/product'
-import {updateCart, deleteItem} from '../store/cart'
+import {addToCart, deleteItem} from '../store/cart'
 
 /**
  * COMPONENT
@@ -63,7 +63,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     getProducts: () => dispatch(getAllProducts()),
-    addToCart: product => dispatch(updateCart(product)),
+    addToCart: product => dispatch(addToCart(product)),
     deleteItem: id => dispatch(deleteItem(id))
   }
 }
