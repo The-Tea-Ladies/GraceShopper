@@ -9,7 +9,9 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({email: 'murphy@email.com', password: '123'}),
+    User.create({email: 'krabby@email.com', password: '123'}),
+    User.create({email: 'squirtle@email.com', password: '123'})
   ])
 
   const products = await Promise.all([
@@ -43,6 +45,70 @@ async function seed() {
       price: 11,
       inventory: 10,
       image: '/img/pumping-pomegranate.jpg'
+    }),
+    Product.create({
+      name: '100% Organic Matcha',
+      description:
+        'Our 100% certified organic matcha is a fine, highly prized powdered green tea traditionally used as part of the Japanese tea ceremony.',
+      price: 11,
+      inventory: 10,
+      image: '/img/matcha.jpg'
+    }),
+    Product.create({
+      name: 'Chai',
+      description:
+        'Complex, spicy and incredibly tasty, our signature chai blend is a unique classic. Perfect to wrap your hands around on a chilly afternoon. Traditionally brewed with milk and honey.',
+      price: 11,
+      inventory: 10,
+      image: '/img/chai.jpg'
+    }),
+    Product.create({
+      name: 'French Earl Grey',
+      description:
+        'Earl Grey gets a French twist which is oh-so-fruity. A medium-bodied black tea base with pretty petals and notes of fruit that play with classic bergamot in an inspiring, bold and refined infusion.',
+      price: 11,
+      inventory: 10,
+      image: '/img/french.jpg'
+    }),
+    Product.create({
+      name: 'Banana Bake Loose Leaf',
+      description:
+        'A robust black banana tea with hints of vanilla and banana to take you away to a picture perfect winters day, all snuggled up with a cuppa and munching on a warm loaf of banana bread.',
+      price: 11,
+      inventory: 10,
+      image: '/img/banana-bake.jpg'
+    }),
+    Product.create({
+      name: 'Watermelon Sorbet ',
+      description:
+        'Chill out in style with this oh-so-yummy poolside blend of lush watermelon and fresh mint. Kick your feet up…this brew makes it happy hour, every hour.',
+      price: 11,
+      inventory: 10,
+      image: '/img/watermelon-sorbet.jpg'
+    }),
+    Product.create({
+      name: 'Sencha Mango Loose Leaf',
+      description:
+        'Sencha green tea with mango equals a tropical treat that is sweet, mellow and packed with juicy mango vibes. A bright brew to bring a little sunshine into every cuppa.',
+      price: 11,
+      inventory: 10,
+      image: '/img/sencha-mango.jpg'
+    }),
+    Product.create({
+      name: 'Jade Mountain Loose Leaf',
+      description:
+        'Explore Jade Mountain and discover a utopia of cocoa, brittle pieces and green tea. A hint of chocolate and sweet hazelnut praline is totally worth it.',
+      price: 11,
+      inventory: 10,
+      image: '/img/jade-mountain.jpg'
+    }),
+    Product.create({
+      name: 'Detox Loose Leaf',
+      description:
+        'Been a little naughty? Whatever good intentions you might have, this detox tea is here to help you through!',
+      price: 11,
+      inventory: 10,
+      image: '/img/detox.jpg'
     })
   ])
 
