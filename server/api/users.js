@@ -15,7 +15,16 @@ router.param('id', (req, res, next, id) => {
     .catch(next)
 })
 
-router.get('/', async (req, res, next) => {
+const adminsOnly = (req, res, next) => {
+  if (!req.user || !req.user.isAdmin) {
+    const err = new Error('Not allowed!')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
+router.get('/', adminsOnly, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -28,25 +37,6 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
-
-// router.get('/:id', async (req, res, next) => {
-//   try {
-//     const user = await User.findByPk(req.params.id)
-//     res.json(user)
-
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-const adminsOnly = (req, res, next) => {
-  if (!req.params.isAdmin) {
-    const err = new Error('Not allowed!')
-    err.status = 401
-    return next(err)
-  }
-  next()
-}
 
 router.delete('/:id', adminsOnly, async (req, res, next) => {
   try {
