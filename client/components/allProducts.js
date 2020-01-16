@@ -27,7 +27,7 @@ class AllProducts extends React.Component {
           {this.props.products.map(product => (
             <div className="all-products-single" key={product.id}>
               <img className="all-products-image" src={product.image} />
-              {product.name}
+              {product.name} {product.price}
               <button
                 type="submit"
                 onClick={() => this.props.addToCart(product)}
