@@ -86,10 +86,10 @@ p.b {
   font: Arial 15px/40px Georgia, sans-serif;
 }
 button {
-  background-color: #4caf50; /* Green */
+  background-color: #aabda0; /* Green */
   border: none;
   color: white;
-  padding: 10px 25px;
+  padding: 5px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
