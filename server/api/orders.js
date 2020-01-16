@@ -3,6 +3,16 @@ const {Order, OrderProduct, Product} = require('../db/models')
 const Sequelize = require('sequelize')
 module.exports = router
 
+// function promiseCart(cart) {
+//   return Promise.all(
+//     cart.map( async (item) => {
+//       const product = await Product.findByPk(item.productId);
+//       item.product = product;
+//       return item;
+//     })
+//   )
+// }
+
 router.get('/', async (req, res, next) => {
   try {
     if (req.session.orderId) {
@@ -10,11 +20,12 @@ router.get('/', async (req, res, next) => {
         where: {orderId: req.session.orderId},
         attributes: ['quantity', 'productId']
       })
-      cart.map(item => {
-        const product = Product.findByPk(item.productId)
-        item.product = product
-        return item
-      })
+      for (let i = 0; i < cart.length; i++) {
+        let item = cart[i]
+        const {dataValues} = await Product.findByPk(item.productId)
+        item.dataValues.product = dataValues
+      }
+
       res.send(cart)
     }
   } catch (error) {
@@ -22,23 +33,32 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/:productId', async (req, res, next) => {
   try {
     if (!req.session.orderId) {
       const order = await Order.create()
       req.session.orderId = order.id
-      const quantity = await OrderProduct.updateOrCreate(
+      await OrderProduct.updateOrCreate(
         req.session.orderId,
-        req.body.productId
+        req.params.productId
       )
-      res.send(quantity)
+      res.sendStatus(201)
     } else {
-      const quantity = await OrderProduct.updateOrCreate(
+      await OrderProduct.updateOrCreate(
         req.session.orderId,
-        req.body.productId
+        req.params.productId
       )
-      res.status(201).send(quantity)
+      res.sendStatus(201)
     }
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:productId', async (req, res, next) => {
+  try {
+    await OrderProduct.deleteItem(req.session.orderId, req.params.productId)
+    res.sendStatus(201)
   } catch (error) {
     next(error)
   }
@@ -56,6 +76,24 @@ router.put('/checkout', async (req, res, next) => {
     next(err)
   }
 })
+
+// router.get('/test', async (req, res, next) => {
+//   try {
+//     if (!req.session.cart) {
+//       req.session.cart = []
+//     }
+
+//     console.log('req.session.id before save:', req.session.id)
+//     req.session.save()
+//     console.log('req.session.id after save:', req.session.id)
+//     console.log('req.session')
+//     console.log(req.session)
+//     res.status(200).send(req.user)
+//   } catch (error) {
+//     console.log('sad face')
+//     next(error)
+//   }
+// })
 
 // router.get('/cart', async (req, res, next) => {
 //   try {
