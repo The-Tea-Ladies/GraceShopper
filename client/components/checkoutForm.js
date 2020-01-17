@@ -1,8 +1,10 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getAllProducts} from '../store/product'
 import {updateCart} from '../store/cart'
+import ThankYou from './thankyou'
 
 /**
  * COMPONENT
@@ -47,8 +49,9 @@ const CheckoutForm = props => {
           value={props.state.cardnumber}
           onChange={props.handleChange}
         /> */}
-
-        <button type="submit">Purchase</button>
+        <Link to="/thankyou">
+          <button type="submit">Purchase</button>
+        </Link>
       </form>
     </div>
   )

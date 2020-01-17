@@ -76,7 +76,7 @@ export const deleteItem = productId => {
 export const sendOrder = newOrder => {
   return async dispatch => {
     try {
-      const {data} = await axios.post('api/orders/checkout', newOrder)
+      const {data} = await axios.put('/api/orders/checkout', newOrder)
       dispatch(clearCart())
     } catch (error) {
       console.error(error)
