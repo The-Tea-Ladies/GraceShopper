@@ -37,6 +37,9 @@ router.post('/:productId', async (req, res, next) => {
   try {
     if (!req.session.orderId) {
       const order = await Order.create()
+      if (req.user) {
+        await order.update({userId: req.user.id})
+      }
       req.session.orderId = order.id
       await OrderProduct.updateOrCreate(
         req.session.orderId,
@@ -55,25 +58,23 @@ router.post('/:productId', async (req, res, next) => {
   }
 })
 
+router.put('/checkout', async (req, res, next) => {
+  try {
+    const order = await Order.findByPk(req.session.orderId)
+    order.update({...req.body, finalized: true})
+    req.session.orderId = null
+    res.sendStatus(204)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.put('/:productId', async (req, res, next) => {
   try {
     await OrderProduct.deleteItem(req.session.orderId, req.params.productId)
     res.sendStatus(201)
   } catch (error) {
     next(error)
-  }
-})
-
-router.put('/checkout', async (req, res, next) => {
-  // if (!req.session.cart) {
-  //   req.session.cart = [];
-  // }
-  try {
-    const order = await Order.findByPk(req.session.orderId)
-    order.finalized = true
-    res.sendStatus(204)
-  } catch (err) {
-    next(err)
   }
 })
 

@@ -5,12 +5,14 @@ import {getSingleProduct} from '../store/product'
 import {addToCart} from '../store/cart'
 
 class SingleProduct extends React.Component {
+  constructor(props) {
+    super(props)
+  }
   componentDidMount() {
     this.props.getProduct()
   }
   render() {
-    const product = this.props.products
-    console.log('product', product)
+    const product = this.props.product
     return (
       <div className="single-product">
         <img className="single-img item" src={product.image} />
@@ -21,7 +23,10 @@ class SingleProduct extends React.Component {
             Price: ${product.price / 100}.{product.price % 100}0
           </p>
           <p className="item">Description: {product.description}</p>
-          <button type="submit" onClick={() => this.props.addToCart(product)}>
+          <button
+            type="submit"
+            onClick={() => this.props.addToCart(product.id)}
+          >
             Add to Cart
           </button>
         </div>
@@ -31,7 +36,7 @@ class SingleProduct extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  products: state.products.single
+  product: state.products.single
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -40,7 +45,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const productId = ownProps.match.params.productId
       dispatch(getSingleProduct(productId))
     },
-    addToCart: product => dispatch(addToCart(product))
+    addToCart: productId => dispatch(addToCart(productId))
   }
 }
 
