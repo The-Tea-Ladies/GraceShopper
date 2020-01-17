@@ -3,20 +3,16 @@ const db = require('../db')
 
 const Order = db.define('order', {
   shippingname: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   shippingaddress: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   billingname: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   billingaddress: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   finalized: {
     type: Sequelize.BOOLEAN,

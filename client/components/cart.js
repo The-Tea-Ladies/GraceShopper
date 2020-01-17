@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getAllProducts} from '../store/product'
-import {updateCart, deleteItem} from '../store/cart'
+import {addToCart, deleteItem, getCart} from '../store/cart'
 
 /**
  * COMPONENT
@@ -16,7 +16,8 @@ class Cart extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getProducts()
+    // this.props.getProducts()
+    this.props.getCart()
   }
 
   handleClick(evt) {
@@ -31,11 +32,11 @@ class Cart extends React.Component {
         {this.props.cart.length ? (
           <ul>
             {this.props.cart.map(item => (
-              <li className="all-products-single" key={item.id}>
-                <img className="all-products-image" src={item.image} />
-                {item.name}
+              <li className="all-products-single" key={item.productId}>
+                <img className="all-products-image" src={item.product.image} />
+                {item.product.name}
                 <div>Quantity: {item.quantity}</div>
-                <button id={item.id} onClick={this.handleClick}>
+                <button id={item.productId} onClick={this.handleClick}>
                   Remove Item
                 </button>
               </li>
@@ -56,14 +57,13 @@ class Cart extends React.Component {
  * CONTAINER
  */
 const mapStateToProps = state => ({
-  products: state.products.all,
   cart: state.cart
 })
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProducts: () => dispatch(getAllProducts()),
-    addToCart: product => dispatch(updateCart(product)),
+    getCart: () => dispatch(getCart()),
+    addToCart: product => dispatch(addToCart(product)),
     deleteItem: id => dispatch(deleteItem(id))
   }
 }

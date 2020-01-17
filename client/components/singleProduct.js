@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {getSingleProduct} from '../store/product'
-import {updateCart} from '../store/cart'
+import {addToCart} from '../store/cart'
 
 class SingleProduct extends React.Component {
   componentDidMount() {
@@ -40,7 +40,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const productId = ownProps.match.params.productId
       dispatch(getSingleProduct(productId))
     },
-    addToCart: product => dispatch(updateCart(product))
+    addToCart: product => dispatch(addToCart(product))
   }
 }
 
