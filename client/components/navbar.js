@@ -1,4 +1,6 @@
 import React from 'react'
+import {Icon, InlineIcon} from '@iconify/react'
+import shoppingCart from '@iconify/icons-typcn/shopping-cart'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -14,7 +16,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         <div>
           {/* The navbar will show these links after you log in */}
 
-          <Link to="/cart">Shopping Cart</Link>
+          <Link to="/cart">
+            <Icon icon={shoppingCart} className="icon" color="black" />
+          </Link>
           <Link to="/home">Home</Link>
           <a href="#" onClick={handleClick}>
             Logout
@@ -25,7 +29,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           {/* The navbar will show these links before you log in */}
 
           <Link to="/cart">
-            Shopping <i className="fas fa-shopping-cart" /> Cart
+            <Icon icon={shoppingCart} className="icon" color="black" />
           </Link>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
