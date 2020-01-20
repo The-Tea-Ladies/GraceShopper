@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const User = require('../db/models/user')
+const Order = require('../db/models/order')
+const OrderProduct = require('../db/models/orderProduct')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
@@ -12,6 +14,20 @@ router.post('/login', async (req, res, next) => {
       console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')
     } else {
+      const order = await Order.findOne({
+        where: {userId: user.id, finalized: false}
+      })
+
+      if (order && req.session.orderId) {
+        await OrderProduct.mergeOrders(req.session.orderId, order.id)
+        req.session.orderId = order.id
+        console.log('maybe merged!')
+      } else if (!order && req.session.orderId) {
+        const order = await Order.findByPk(req.session.orderId)
+        await order.update({userId: user.id})
+      } else if (order && !req.session.orderId) {
+        req.session.orderId = order.id
+      }
       req.login(user, err => (err ? next(err) : res.json(user)))
     }
   } catch (err) {
@@ -34,6 +50,7 @@ router.post('/signup', async (req, res, next) => {
 
 router.post('/logout', (req, res) => {
   req.logout()
+  //console.log('session id', req.session.id)
   req.session.destroy()
   res.redirect('/')
 })
