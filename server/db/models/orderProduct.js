@@ -47,4 +47,25 @@ OrderProduct.deleteItem = async (orderId, productId) => {
     console.log(err)
   }
 }
+
+OrderProduct.mergeOrders = async (sessOrderId, dbOrderId) => {
+  try {
+    const newItems = await OrderProduct.findAll({where: {orderId: sessOrderId}})
+    for (let i = 0; i < newItems.length; i++) {
+      let item = newItems[i]
+      let found = await OrderProduct.findOne({
+        where: {orderId: dbOrderId, productId: item.productId}
+      })
+      if (found) {
+        found.update({quantity: found.quantity + item.quantity})
+      } else {
+        item.update({orderId: dbOrderId})
+      }
+    }
+    const defunctOrder = await Order.findOne({where: {id: sessOrderId}})
+    await defunctOrder.destroy()
+  } catch (error) {
+    console.log(error)
+  }
+}
 module.exports = OrderProduct

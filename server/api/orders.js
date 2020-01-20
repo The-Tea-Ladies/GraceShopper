@@ -35,6 +35,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/:productId', async (req, res, next) => {
   try {
+    console.log('session id in product', req.session.id)
     if (!req.session.orderId) {
       const order = await Order.create()
       if (req.user) {
