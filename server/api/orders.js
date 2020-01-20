@@ -13,7 +13,23 @@ module.exports = router
 //   )
 // }
 
-router.get('/', async (req, res, next) => {
+const userOnly = async (req, res, next) => {
+  if (req.session.orderId) {
+    let order = await Order.findByPk(req.session.orderId)
+    if (
+      (!req.user && order.userId) ||
+      (req.user && req.user.id !== order.userId)
+    ) {
+      const err = new Error('Not allowed!')
+      err.status = 401
+      return next(err)
+    }
+  }
+
+  next()
+}
+
+router.get('/', userOnly, async (req, res, next) => {
   try {
     if (req.session.orderId) {
       const cart = await OrderProduct.findAll({
@@ -27,6 +43,8 @@ router.get('/', async (req, res, next) => {
       }
 
       res.send(cart)
+    } else {
+      res.send([])
     }
   } catch (error) {
     next(error)
