@@ -57,9 +57,12 @@ OrderProduct.mergeOrders = async (sessOrderId, dbOrderId) => {
         where: {orderId: dbOrderId, productId: item.productId}
       })
       if (found) {
-        found.update({quantity: found.quantity + item.quantity})
+        await found.update({quantity: found.quantity + item.quantity})
       } else {
-        item.update({orderId: dbOrderId})
+        const order = await Order.findByPk(dbOrderId)
+        const product = await Product.findByPk(item.productId)
+        const orderProdInstance = await order.addProduct(product)
+        await orderProdInstance[0].update({quantity: item.quantity})
       }
     }
     const defunctOrder = await Order.findOne({where: {id: sessOrderId}})

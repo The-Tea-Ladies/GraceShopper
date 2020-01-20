@@ -14,9 +14,6 @@ router.post('/login', async (req, res, next) => {
       console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')
     } else {
-      console.log('session id before login', req.session.id)
-
-      console.log('session id', req.session.id)
       const order = await Order.findOne({
         where: {userId: user.id, finalized: false}
       })
@@ -26,13 +23,10 @@ router.post('/login', async (req, res, next) => {
         req.session.orderId = order.id
         console.log('maybe merged!')
       } else if (!order && req.session.orderId) {
-        console.log('no order yes session here')
         const order = await Order.findByPk(req.session.orderId)
         await order.update({userId: user.id})
       } else if (order && !req.session.orderId) {
-        console.log('yes oder no session here', req.session.id, order.id)
         req.session.orderId = order.id
-        console.log('session', req.session)
       }
       req.login(user, err => (err ? next(err) : res.json(user)))
     }
