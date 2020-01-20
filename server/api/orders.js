@@ -34,7 +34,8 @@ router.get('/', userOnly, async (req, res, next) => {
     if (req.session.orderId) {
       const cart = await OrderProduct.findAll({
         where: {orderId: req.session.orderId},
-        attributes: ['quantity', 'productId']
+        attributes: ['quantity', 'productId'],
+        order: [['createdAt', 'ASC']]
       })
       for (let i = 0; i < cart.length; i++) {
         let item = cart[i]
