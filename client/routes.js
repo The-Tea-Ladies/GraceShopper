@@ -8,6 +8,8 @@ import allProducts from './components/allProducts'
 import Checkout from './components/checkout'
 import ThankYou from './components/thankyou'
 import SingleProduct from './components/singleProduct'
+import Profile from './components/user-profile'
+import Orders from './components/orderHistory'
 /**
  * COMPONENT
  */
@@ -34,6 +36,8 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/orders/:userId" component={Orders} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

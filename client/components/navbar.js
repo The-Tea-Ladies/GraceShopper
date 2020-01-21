@@ -20,6 +20,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
             {/* <Icon icon={shoppingCart} className="icon" color="black" /> */}
             Shopping Cart
           </Link>
+          <Link to="/profile">Profile</Link>
           <Link to="/home">Home</Link>
           <a href="#" onClick={handleClick}>
             Logout
