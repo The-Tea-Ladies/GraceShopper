@@ -81,7 +81,7 @@ router.post('/:productId', async (req, res, next) => {
 router.put('/checkout', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.session.orderId)
-    order.update({...req.body, finalized: true})
+    await order.update({...req.body, finalized: true})
     req.session.orderId = null
     res.sendStatus(204)
   } catch (err) {

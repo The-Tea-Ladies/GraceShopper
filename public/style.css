@@ -94,7 +94,17 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  transition: all 0.5s ease;
+  outline: none;
+  border-radius: 3px;
 }
+
+/* .p1 {padding: 1em;} */
+
+button:hover {
+  background-color: #94a789;
+}
+
 .icon {
   font-size: 2em;
   line-height: 1em;

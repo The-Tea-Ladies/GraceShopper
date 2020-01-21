@@ -29,8 +29,6 @@ class Checkout extends React.Component {
     event.preventDefault()
 
     let newOrder = {...this.state} //on the backend, we'll grab orderId and userId, if applicable, from req.session
-    console.log(newOrder)
-
     this.props.sendOrder(newOrder)
 
     this.setState({
@@ -40,7 +38,7 @@ class Checkout extends React.Component {
       billingaddress: ''
       // cardnumber: ''
     })
-    // redirect to thank you page??
+    this.props.history.push('/thankyou')
   }
 
   handleChange = event => {
