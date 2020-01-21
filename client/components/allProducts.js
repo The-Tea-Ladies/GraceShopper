@@ -7,7 +7,7 @@ import {addToCart} from '../store/cart'
 /**
  * COMPONENT
  */
-class AllProducts extends React.Component {
+export class AllProducts extends React.Component {
   constructor(props) {
     super(props)
   }
