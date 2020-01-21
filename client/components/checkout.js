@@ -29,6 +29,7 @@ class Checkout extends React.Component {
     event.preventDefault()
 
     let newOrder = {...this.state} //on the backend, we'll grab orderId and userId, if applicable, from req.session
+    console.log(newOrder)
 
     this.props.sendOrder(newOrder)
 

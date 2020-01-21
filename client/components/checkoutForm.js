@@ -49,9 +49,8 @@ const CheckoutForm = props => {
           value={props.state.cardnumber}
           onChange={props.handleChange}
         /> */}
-        <Link to="/thankyou">
-          <button type="submit">Purchase</button>
-        </Link>
+
+        <button type="submit">Purchase</button>
       </form>
     </div>
   )

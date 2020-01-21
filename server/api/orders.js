@@ -98,6 +98,15 @@ router.put('/:productId', async (req, res, next) => {
   }
 })
 
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({where: {userId: req.params.userId}})
+    res.send(orders)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // router.get('/test', async (req, res, next) => {
 //   try {
 //     if (!req.session.cart) {
