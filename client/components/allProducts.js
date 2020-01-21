@@ -17,7 +17,6 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    console.log('props', this.props.products)
     return (
       <div>
         <h3>Shop all Tea</h3>
