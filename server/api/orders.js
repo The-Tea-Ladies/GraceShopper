@@ -78,11 +78,20 @@ router.post('/:productId', async (req, res, next) => {
   }
 })
 
+router.get('/id', async (req, res, next) => {
+  try {
+    res.status(200).send({orderId: req.session.orderId})
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.put('/checkout', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.session.orderId)
     await order.update({...req.body, finalized: true})
     req.session.orderId = null
+
     res.sendStatus(204)
   } catch (err) {
     next(err)
