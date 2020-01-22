@@ -1,20 +1,14 @@
-import {expect} from 'chai'
-import React from 'react'
-import enzyme, {shallow} from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import {AllProducts} from './allProducts'
+// import React from 'react';
+// import { expect } from 'chai';
+// import { mount } from 'enzyme';
+// import { spy } from 'sinon';
+// import AllProducts from './AllProducts';
 
-const adapter = new Adapter()
-enzyme.configure({adapter})
+// spy(AllProducts.prototype, 'componentDidMount');
 
-describe('AllProducts', () => {
-  let allProducts
-
-  beforeEach(() => {
-    allProducts = shallow(<AllProducts products={[]} />)
-  })
-
-  it('renders the products in a div', () => {
-    expect(allProducts.find('h3')).to.have.length(1)
-  })
-})
+// describe('<AllProducts />', () => {
+//   it('calls componentDidMount', () => {
+//     const wrapper = mount(<AllProducts />);
+//     expect(AllProducts.prototype.componentDidMount).to.have.property('callCount', 1);
+//   });
+// });
