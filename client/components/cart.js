@@ -33,7 +33,12 @@ class Cart extends React.Component {
           <ul>
             {this.props.cart.map(item => (
               <li className="all-products-single" key={item.productId}>
-                <img className="all-products-image" src={item.product.image} />
+                <Link to={`/products/${item.productId}`}>
+                  <img
+                    className="all-products-image"
+                    src={item.product.image}
+                  />
+                </Link>
                 {item.product.name}
                 <div>Quantity: {item.quantity}</div>
                 <button id={item.productId} onClick={this.handleClick}>
