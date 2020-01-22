@@ -29,6 +29,23 @@ const userOnly = async (req, res, next) => {
   next()
 }
 
+const formatDates = orders => {
+  let newOrders = []
+  for (let i = 0; i < orders.length; i++) {
+    let order = {}
+    order.updatedAt = orders[i].updatedAt.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+    order.shippingaddress = orders[i].shippingaddress
+    order.shippingname = orders[i].shippingname
+    order.id = orders[i].id
+    newOrders.push(order)
+  }
+  return newOrders
+}
+
 router.get('/', userOnly, async (req, res, next) => {
   try {
     if (req.session.orderId) {
@@ -110,7 +127,8 @@ router.put('/:productId', async (req, res, next) => {
 router.get('/:userId', async (req, res, next) => {
   try {
     const orders = await Order.findAll({where: {userId: req.params.userId}})
-    res.send(orders)
+    const formattedOrders = formatDates(orders)
+    res.send(formattedOrders)
   } catch (error) {
     next(error)
   }

@@ -19,17 +19,17 @@ class Orders extends React.Component {
         <table>
           <thead>
             <tr>
+              <th>Shipping Name</th>
               <th>Shipping Address</th>
               <th>Order Date</th>
-              <th>Finalized</th>
             </tr>
           </thead>
           <tbody>
             {this.props.orders.map(order => (
               <tr key={order.id}>
+                <td>{order.shippingname}</td>
                 <td>{order.shippingaddress}</td>
                 <td>{order.updatedAt}</td>
-                <td>{order.finalized}</td>
               </tr>
             ))}
           </tbody>
