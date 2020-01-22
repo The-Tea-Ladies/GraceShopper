@@ -69,10 +69,10 @@ router.get('/', userOnly, async (req, res, next) => {
         const {dataValues} = await Product.findByPk(item.productId)
         item.dataValues.product = dataValues
       }
-
-      res.send(cart)
+      const order = await Order.findByPk(req.session.orderId)
+      res.send({cart, total: order.total})
     } else {
-      res.send([])
+      res.send({cart: [], total: 0})
     }
   } catch (error) {
     next(error)

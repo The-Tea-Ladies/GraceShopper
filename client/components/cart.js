@@ -1,8 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes, {string} from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getAllProducts} from '../store/product'
 import {addToCart, deleteItem, getCart} from '../store/cart'
 
 /**
@@ -16,7 +15,6 @@ class Cart extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.getProducts()
     this.props.getCart()
   }
 
@@ -25,34 +23,48 @@ class Cart extends React.Component {
     this.props.deleteItem(id)
   }
 
+  priceWriter(price) {
+    let stringPrice = `$${price / 100}.${price % 100}`
+    if (price % 100 < 10) return stringPrice.concat('0')
+    return stringPrice
+  }
+
   render() {
     return (
       <div>
         <h3>Cart</h3>
         {this.props.cart.length ? (
-          <ul>
-            {this.props.cart.map(item => (
-              <li className="all-products-single" key={item.productId}>
-                <Link to={`/products/${item.productId}`}>
-                  <img
-                    className="all-products-image"
-                    src={item.product.image}
-                  />
-                </Link>
-                {item.product.name}
-                <div>Quantity: {item.quantity}</div>
-                <button id={item.productId} onClick={this.handleClick}>
-                  Remove Item
-                </button>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <ul>
+              {this.props.cart.map(item => (
+                <li className="all-products-single" key={item.productId}>
+                  <Link to={`/products/${item.productId}`}>
+                    <img
+                      className="all-products-image"
+                      src={item.product.image}
+                    />
+                  </Link>
+                  {item.product.name}
+                  <div>Quantity: {item.quantity}</div>
+                  <div>Price: {this.priceWriter(item.product.price)}</div>
+                  <button
+                    type="submit"
+                    id={item.productId}
+                    onClick={this.handleClick}
+                  >
+                    Remove Item
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <div>Cart Total: {this.priceWriter(this.props.total)}</div>
+            <Link to="/checkout">
+              <button type="submit">Check Out</button>
+            </Link>
+          </div>
         ) : (
           <p>Your cart is empty</p>
         )}
-        <Link to="/checkout">
-          <button type="submit">Check Out</button>
-        </Link>
       </div>
     )
   }
@@ -62,7 +74,8 @@ class Cart extends React.Component {
  * CONTAINER
  */
 const mapStateToProps = state => ({
-  cart: state.cart
+  cart: state.cart.cart,
+  total: state.cart.total
 })
 
 const mapDispatchToProps = dispatch => {

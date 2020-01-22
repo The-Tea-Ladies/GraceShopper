@@ -19,6 +19,7 @@ OrderProduct.updateOrCreate = async (orderId, productId) => {
     })
     const order = await Order.findByPk(orderId)
     const product = await Product.findByPk(productId)
+    await order.update({total: order.total + product.price})
     if (!found) {
       order.addProduct(product)
       // return {quantity: 1}
@@ -38,6 +39,7 @@ OrderProduct.deleteItem = async (orderId, productId) => {
     })
     const order = await Order.findByPk(orderId)
     const product = await Product.findByPk(productId)
+    await order.update({total: order.total - product.price})
     if (found.quantity === 1) {
       order.removeProduct(product)
     } else {
