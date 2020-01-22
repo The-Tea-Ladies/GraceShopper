@@ -28,5 +28,14 @@ describe('Product routes', () => {
       expect(res.body[0].name).to.be.equal(teaKind)
       expect(res.body[0].price).to.be.equal(20)
     })
-  }) // end describe('/api/users')
-}) // end describe('User routes')
+
+    it('GET /api/products/:id', async () => {
+      const res = await request(app)
+        .get('/api/products/1')
+        .expect(200)
+      expect(res.body).to.be.an('object')
+      expect(res.body.name).to.be.equal(teaKind)
+      expect(res.body.price).to.be.equal(20)
+    })
+  }) // end describe('/api/products')
+}) // end describe('Product routes')
