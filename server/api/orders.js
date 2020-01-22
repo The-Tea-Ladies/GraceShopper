@@ -29,6 +29,33 @@ const userOnly = async (req, res, next) => {
   next()
 }
 
+const loggedInUser = async (req, res, next) => {
+  const order = await Order.findByPk(req.params.orderId)
+  if (req.user.id !== order.userId) {
+    const err = new Error('Not allowed!!')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
+const formatDates = orders => {
+  let newOrders = []
+  for (let i = 0; i < orders.length; i++) {
+    let order = {}
+    order.updatedAt = orders[i].updatedAt.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+    order.shippingaddress = orders[i].shippingaddress
+    order.shippingname = orders[i].shippingname
+    order.id = orders[i].id
+    newOrders.push(order)
+  }
+  return newOrders
+}
+
 router.get('/', userOnly, async (req, res, next) => {
   try {
     if (req.session.orderId) {
@@ -107,18 +134,31 @@ router.put('/:productId', async (req, res, next) => {
   }
 })
 
-router.get('/testing', async (req, res, next) => {
+
+router.get('/myorders', async (req, res, next) => {
   try {
-    console.log('req.user:', req.user)
-    res.status(200).send({user: req.user})
+    const orders = await Order.findAll({where: {userId: req.user.id}})
+    const formattedOrders = formatDates(orders)
+    res.send(formattedOrders)
   } catch (error) {
     next(error)
   }
 })
-router.get('/:userId', async (req, res, next) => {
+
+router.get('/myorders/:orderId', loggedInUser, async (req, res, next) => {
   try {
-    const orders = await Order.findAll({where: {userId: req.params.userId}})
-    res.send(orders)
+    const order = await OrderProduct.findAll({
+      where: {orderId: req.params.orderId},
+      attributes: ['quantity', 'productId'],
+      order: [['createdAt', 'ASC']]
+    })
+    for (let i = 0; i < order.length; i++) {
+      let item = order[i]
+      const {dataValues} = await Product.findByPk(item.productId)
+      item.dataValues.product = dataValues
+    }
+
+    res.send(order)
   } catch (error) {
     next(error)
   }
