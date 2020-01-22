@@ -23,4 +23,5 @@ const Order = db.define('order', {
     defaultValue: 0
   }
 })
+
 module.exports = Order
