@@ -11,7 +11,7 @@ const adapter = new Adapter()
 enzyme.configure({adapter})
 
 describe('<CheckoutForm />', () => {
-  let form
+  let form, formSpy
 
   beforeEach(() => {
     form = shallow(
@@ -38,20 +38,13 @@ describe('<CheckoutForm />', () => {
     //expect(form.find('h4').text()).to.be.equal('Billing Information')
   })
 
+  it('renders a <button> element', () => {
+    expect(form.find('button').length).to.be.equal(1)
+  })
+
   xit('simulates click events', () => {
     const onButtonClick = sinon.spy()
-    const wrapper = shallow(
-      <CheckoutForm
-        state={{
-          shippingname: '',
-          shippingaddress: '',
-          billingname: '',
-          billingaddress: ''
-        }}
-        handleSubmit={onButtonClick}
-      />
-    )
-    wrapper.find('button').simulate('click')
-    expect(onButtonClick.calledOnce).to.equal(true)
+    form.find('button').simulate('click', {})
+    expect(onButtonClick.called).to.equal(true)
   })
 })
