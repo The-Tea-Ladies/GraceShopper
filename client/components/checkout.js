@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getAllProducts} from '../store/product'
-import {sendOrder} from '../store/cart'
+import {sendOrder, getOrderId} from '../store/cart'
 import CheckoutForm from './checkoutForm'
 import {Redirect} from 'react-router-dom'
 
@@ -25,13 +25,12 @@ class Checkout extends React.Component {
     this.props.getProducts()
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault()
 
-    let newOrder = {...this.state} //on the backend, we'll grab orderId and userId, if applicable, from req.session
-
-    this.props.sendOrder(newOrder)
-
+    let newOrder = {...this.state}
+    const orderId = await this.props.getOrderId()
+    await this.props.sendOrder(newOrder)
     this.setState({
       shippingname: '',
       shippingaddress: '',
@@ -39,7 +38,7 @@ class Checkout extends React.Component {
       billingaddress: ''
       // cardnumber: ''
     })
-    // redirect to thank you page??
+    this.props.history.push(`/thankyou/${orderId}`)
   }
 
   handleChange = event => {
@@ -82,6 +81,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     getProducts: () => dispatch(getAllProducts()),
+    getOrderId: () => dispatch(getOrderId()),
     sendOrder: newOrder => dispatch(sendOrder(newOrder))
   }
 }
