@@ -134,6 +134,7 @@ router.put('/:productId', async (req, res, next) => {
   }
 })
 
+
 router.get('/myorders', async (req, res, next) => {
   try {
     const orders = await Order.findAll({where: {userId: req.user.id}})
