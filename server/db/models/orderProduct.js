@@ -21,10 +21,10 @@ OrderProduct.updateOrCreate = async (orderId, productId) => {
     const product = await Product.findByPk(productId)
     if (!found) {
       order.addProduct(product)
-      return {quantity: 1}
+      // return {quantity: 1}
     } else {
       found.update({quantity: found.quantity + 1})
-      return {quantity: found.quantity}
+      // return {quantity: found.quantity}
     }
   } catch (err) {
     console.log(err)

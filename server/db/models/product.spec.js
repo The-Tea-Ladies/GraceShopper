@@ -1,32 +1,40 @@
 /* global describe beforeEach it */
 
-// const {expect} = require('chai')
-// const db = require('../index')
-// const Product = db.model('produv')
+const {expect} = require('chai')
+const db = require('../index')
+const Product = db.model('product')
 
-// describe('User model', () => {
-//   beforeEach(() => {
-//     return db.sync({force: true})
-//   })
+describe('Product model', () => {
+  beforeEach(() => {
+    return db.sync({force: true})
+  })
 
-//   describe('instanceMethods', () => {
-//     describe('correctPassword', () => {
-//       let cody
+  describe('validations', () => {
+    describe('correct value', () => {
+      let oolong
 
-//       beforeEach(async () => {
-//         cody = await User.create({
-//           email: 'cody@puppybook.com',
-//           password: 'bones'
-//         })
-//       })
+      beforeEach(async () => {
+        oolong = await Product.create({
+          name: 'oolong fresh',
+          price: 10
+        })
+      })
 
-//       it('returns true if the password is correct', () => {
-//         expect(cody.correctPassword('bones')).to.be.equal(true)
-//       })
+      it('returns true if the name is correct', () => {
+        expect(oolong.name === 'oolong fresh').to.be.equal(true)
+      })
 
-//       it('returns false if the password is incorrect', () => {
-//         expect(cody.correctPassword('bonez')).to.be.equal(false)
-//       })
-//     }) // end describe('correctPassword')
-//   }) // end describe('instanceMethods')
-// }) // end describe('User model')
+      it('returns false if the name is incorrect', () => {
+        expect(oolong.name === 'oolong stale').to.be.equal(false)
+      })
+
+      it('returns true if the price is correct', () => {
+        expect(oolong.price === 10).to.be.equal(true)
+      })
+
+      it('returns false if the price is incorrect', () => {
+        expect(oolong.price === 3).to.be.equal(false)
+      })
+    }) // end describe('correct value')
+  }) // end describe('validations')
+}) // end describe('Product model')
