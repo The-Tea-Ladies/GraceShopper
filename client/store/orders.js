@@ -1,17 +1,20 @@
 import axios from 'axios'
 
-const LOAD_ORDERS = 'LOAD_ORDERS'
+const initialState = {
+  all: [],
+  single: {}
+}
 
-const initialState = []
+const LOAD_ORDERS = 'LOAD_ORDERS'
 
 const loadOrders = orders => {
   return {type: LOAD_ORDERS, orders}
 }
 
-export const getOrders = userId => {
+export const getOrders = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.get(`/api/orders/${userId}`)
+      const {data} = await axios.get(`/api/orders/myorders`)
       dispatch(loadOrders(data))
     } catch (error) {
       console.log(error)
@@ -19,11 +22,30 @@ export const getOrders = userId => {
   }
 }
 
-export default function(orders = initialState, action) {
+const LOAD_ONE_ORDER = 'LOAD_ONE_ORDER'
+
+const loadOneOrder = order => {
+  return {type: LOAD_ONE_ORDER, order}
+}
+
+export const getOneOrder = orderId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get(`/api/orders/myorders/${orderId}`)
+      dispatch(loadOneOrder(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export default function(state = initialState, action) {
   switch (action.type) {
     case LOAD_ORDERS:
-      return [...action.orders]
+      return {...state, all: action.orders}
+    case LOAD_ONE_ORDER:
+      return {...state, single: action.order}
     default:
-      return orders
+      return state
   }
 }

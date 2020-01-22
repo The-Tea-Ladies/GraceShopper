@@ -29,6 +29,16 @@ const userOnly = async (req, res, next) => {
   next()
 }
 
+const loggedInUser = async (req, res, next) => {
+  const order = await Order.findByPk(req.params.orderId)
+  if (req.user.id !== order.userId) {
+    const err = new Error('Not allowed!!')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
 const formatDates = orders => {
   let newOrders = []
   for (let i = 0; i < orders.length; i++) {
@@ -124,11 +134,30 @@ router.put('/:productId', async (req, res, next) => {
   }
 })
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/myorders', async (req, res, next) => {
   try {
-    const orders = await Order.findAll({where: {userId: req.params.userId}})
+    const orders = await Order.findAll({where: {userId: req.user.id}})
     const formattedOrders = formatDates(orders)
     res.send(formattedOrders)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/myorders/:orderId', loggedInUser, async (req, res, next) => {
+  try {
+    const order = await OrderProduct.findAll({
+      where: {orderId: req.params.orderId},
+      attributes: ['quantity', 'productId'],
+      order: [['createdAt', 'ASC']]
+    })
+    for (let i = 0; i < order.length; i++) {
+      let item = order[i]
+      const {dataValues} = await Product.findByPk(item.productId)
+      item.dataValues.product = dataValues
+    }
+
+    res.send(order)
   } catch (error) {
     next(error)
   }
