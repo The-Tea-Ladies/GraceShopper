@@ -11,15 +11,16 @@ const CLEAR_CART = 'CLEAR_CART'
 /**
  * INITIAL STATE
  */
-const initialState = []
+const initialState = {cart: [], total: 0}
 
 /**
  * ACTION CREATORS
  */
-const loadCart = cart => {
+const loadCart = data => {
   return {
     type: LOAD_CART,
-    cart
+    cart: data.cart,
+    total: data.total
   }
 }
 
@@ -98,7 +99,7 @@ export const sendOrder = newOrder => {
 /**
  * REDUCER
  */
-export default function(cart = initialState, action) {
+export default function(cartState = initialState, action) {
   switch (action.type) {
     case LOAD_CART:
       // let updated = false
@@ -113,9 +114,9 @@ export default function(cart = initialState, action) {
       // } else {
       //   return [...cart]
       // }
-      return [...action.cart]
+      return {...cartState, cart: action.cart, total: action.total}
     case CLEAR_CART:
-      return []
+      return initialState
     // case DELETED_ITEM:
     //   cart.forEach(item => {
     //     if (item.id == action.itemId && item.quantity !== 0) item.quantity--
@@ -125,6 +126,6 @@ export default function(cart = initialState, action) {
     //   })
     //   return updatedCart
     default:
-      return cart
+      return cartState
   }
 }

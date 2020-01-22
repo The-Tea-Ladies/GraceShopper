@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {getAllProducts} from '../store/product'
-import {sendOrder, getOrderId} from '../store/cart'
+import {sendOrder, getOrderId, getCart} from '../store/cart'
 import CheckoutForm from './checkoutForm'
 import {Redirect} from 'react-router-dom'
 
@@ -22,7 +21,7 @@ class Checkout extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getProducts()
+    this.props.getCart()
   }
 
   handleSubmit = async event => {
@@ -47,19 +46,16 @@ class Checkout extends React.Component {
     })
   }
 
+  priceWriter(price) {
+    let stringPrice = `$${price / 100}.${price % 100}`
+    if (price % 100 < 10) return stringPrice.concat('0')
+    return stringPrice
+  }
+
   render() {
     return (
       <div>
-        {/* <h3>Cart</h3>
-        <ul>
-          {this.props.products.map(product => (
-            <li className="all-products-single" key={product.id}>
-              <img className="all-products-image" src={product.image} />
-              {product.name}
-            </li>
-          ))}
-        </ul> */}
-        {/* TODO: display order total */}
+        <h4>Order Total: {this.priceWriter(this.props.total)}</h4>
         <CheckoutForm
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
@@ -75,12 +71,13 @@ class Checkout extends React.Component {
  */
 const mapStateToProps = state => ({
   products: state.products.all,
-  cart: state.cart
+  cart: state.cart.cart,
+  total: state.cart.total
 })
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProducts: () => dispatch(getAllProducts()),
+    getCart: () => dispatch(getCart()),
     getOrderId: () => dispatch(getOrderId()),
     sendOrder: newOrder => dispatch(sendOrder(newOrder))
   }

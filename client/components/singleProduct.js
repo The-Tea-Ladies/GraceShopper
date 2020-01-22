@@ -11,6 +11,13 @@ class SingleProduct extends React.Component {
   componentDidMount() {
     this.props.getProduct()
   }
+
+  priceWriter(price) {
+    let stringPrice = `$${price / 100}.${price % 100}`
+    if (price % 100 < 10) return stringPrice.concat('0')
+    return stringPrice
+  }
+
   render() {
     const product = this.props.product
     return (
@@ -19,9 +26,7 @@ class SingleProduct extends React.Component {
 
         <div className="product-description item">
           <h3>{product.name}</h3>
-          <p className="item">
-            Price: ${product.price / 100}.{product.price % 100}0
-          </p>
+          <p className="item">Price: {this.priceWriter(product.price)}</p>
           <p className="item">Description: {product.description}</p>
           <button
             type="submit"
