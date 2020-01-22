@@ -29,6 +29,11 @@ describe('Testing form', () => {
   })
 
   it('renders in a h4', () => {
-    expect(form.find('h3').text()).to.be.equal('Welcome')
+    expect(
+      form
+        .find('h4')
+        .first()
+        .text()
+    ).to.be.equal('Shipping Address')
   })
 })
