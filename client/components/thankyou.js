@@ -10,8 +10,8 @@ import {updateCart} from '../store/cart'
 const ThankYou = props => {
   return (
     <div>
-      <h1>Thank you for your order!</h1>
-      <h1>Your order number is {props.match.params.orderId}</h1>
+      <h2>Thank you for your order!</h2>
+      <h2>Your order number is {props.match.params.orderId}</h2>
     </div>
   )
 }

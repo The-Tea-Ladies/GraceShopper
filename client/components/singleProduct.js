@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
+import {ToastsContainer, ToastsStore} from 'react-toasts'
 import {getSingleProduct} from '../store/product'
 import {addToCart} from '../store/cart'
 
@@ -30,10 +31,14 @@ class SingleProduct extends React.Component {
           <p className="item">Description: {product.description}</p>
           <button
             type="submit"
-            onClick={() => this.props.addToCart(product.id)}
+            onClick={() => {
+              this.props.addToCart(product.id)
+              ToastsStore.success('Added to cart')
+            }}
           >
             Add to Cart
           </button>
+          <ToastsContainer store={ToastsStore} lightBackground />
         </div>
       </div>
     )
