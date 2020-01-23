@@ -54,12 +54,12 @@ class Checkout extends React.Component {
 
   render() {
     return (
-      <div>
-        <h4>Order Total: {this.priceWriter(this.props.total)}</h4>
+      <div className="checkout-view">
         <CheckoutForm
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
           state={this.state}
+          total={this.priceWriter(this.props.total)}
         />
       </div>
     )

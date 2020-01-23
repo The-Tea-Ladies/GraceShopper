@@ -32,35 +32,56 @@ class Cart extends React.Component {
   render() {
     return (
       <div>
-        <h3>Cart</h3>
+        <h2 className="page-title">Shopping Cart</h2>
         {this.props.cart.length ? (
           <div>
-            <ul>
+            <table className="cart-view">
+              <tr>
+                <th /> <th>Item</th> <th>Quantity</th> <th>Price</th> <th />
+              </tr>
               {this.props.cart.map(item => (
-                <li className="all-products-single" key={item.productId}>
-                  <Link to={`/products/${item.productId}`}>
-                    <img
-                      className="all-products-image"
-                      src={item.product.image}
-                    />
-                  </Link>
-                  {item.product.name}
-                  <div>Quantity: {item.quantity}</div>
-                  <div>Price: {this.priceWriter(item.product.price)}</div>
-                  <button
-                    type="submit"
-                    id={item.productId}
-                    onClick={this.handleClick}
-                  >
-                    Remove Item
-                  </button>
-                </li>
+                <tr key={item.productId}>
+                  <td>
+                    <Link to={`/products/${item.productId}`}>
+                      <img
+                        className="all-products-image"
+                        src={item.product.image}
+                      />
+                    </Link>
+                  </td>
+                  <td>{item.product.name}</td>
+                  <td>{item.quantity}</td>
+                  <td>{this.priceWriter(item.product.price)}</td>
+                  <td>
+                    <button
+                      type="submit"
+                      id={item.productId}
+                      onClick={this.handleClick}
+                    >
+                      Remove Item
+                    </button>
+                  </td>
+                </tr>
               ))}
-            </ul>
-            <div>Cart Total: {this.priceWriter(this.props.total)}</div>
-            <Link to="/checkout">
-              <button type="submit">Check Out</button>
-            </Link>
+              <tr id="total-row">
+                <td />
+                <td />
+                <td>Cart Total:</td>
+                <td>{this.priceWriter(this.props.total)}</td>
+              </tr>
+              <tr>
+                <td />
+                <td />
+                <td />
+                <td>
+                  <Link to="/checkout">
+                    <button type="submit" id="check-out-button">
+                      Check Out
+                    </button>
+                  </Link>
+                </td>
+              </tr>
+            </table>
           </div>
         ) : (
           <p>Your cart is empty</p>

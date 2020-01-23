@@ -99,6 +99,42 @@ button {
   border-radius: 3px;
 }
 
+.page-title {
+  margin-left: 30px;
+  margin-top: 30px;
+  font-weight: normal;
+}
+
+.cart-view th,
+td {
+  padding: 20px;
+}
+
+.cart-view th {
+  text-align: left;
+}
+
+.checkout-view {
+  margin-left: 30px;
+  margin-top: 30px;
+}
+.checkout-view input {
+  width: 40%;
+  height: 2em;
+  margin: 5px;
+}
+
+#order-button {
+  display: flex;
+  width: 30%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* #total-row {
+  font-weight: bold;
+} */
+
 /* .p1 {padding: 1em;} */
 
 button:hover {
