@@ -20,7 +20,7 @@ export class AllProducts extends React.Component {
   render() {
     return (
       <div>
-        <h3>Shop all Tea</h3>
+        <h2 className="page-title">Shop all Tea</h2>
         <div className="all-products">
           {this.props.products.map(product => (
             <div className="all-products-single" key={product.id}>
