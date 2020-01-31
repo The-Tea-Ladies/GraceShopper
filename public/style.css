@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  background-color: #d9e5d6;
+  background-color: white;
   /* background-color: #BA9993; */
 }
 
@@ -26,7 +26,7 @@ nav a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #b0caaa;
+  background-color: white;
 }
 
 .navbar > * {
