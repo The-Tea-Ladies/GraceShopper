@@ -25,5 +25,7 @@ The Tea Ladies was built by a team of 3 software engineers studying at the immer
 
 ## :computer: Technologies Used
 ➤ Front-end: React, Redux, HTML, CSS
+
 ➤ Back-end: Node, Express, PostgreSQL, Sequelize
+
 ➤ Deployment/Testing: Heroku, Travis CI, Mocha/Chai, Enzyme
